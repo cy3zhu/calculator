@@ -6,7 +6,7 @@ body{
 
 .calc-container{
     background-color: black;
-    height: 80vh;
+    height: 350px;
     aspect-ratio: 2/3;
     padding: 8px;
     display: flex;
@@ -53,7 +53,7 @@ body{
     flex: 2;
 }
 
-.number{
+.number, .decimal{
     background-color: #333333;
     color: white;
 }
