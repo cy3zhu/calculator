@@ -123,6 +123,9 @@ calculator.addEventListener('click', (event) => {
         case 'decimal':
             decimalPress();
             break;
+        case 'percent':
+            percentagePress();
+            break;
         case 'all-clear':
             allClear();
             break;
@@ -190,5 +193,13 @@ function decimalPress(){
         console.log('works')
         appendInput('.')
         updateDisplay('.', 'append')
+    }
+}
+
+function percentagePress(){
+    let percentage = operate(getCurrentInput(),'100',divide)
+    if(validateResult(percentage)){
+        replaceInput(percentage)
+        updateDisplay(percentage, 'replace')
     }
 }
