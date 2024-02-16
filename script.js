@@ -15,7 +15,7 @@ function divide(a, b){
 }
 
 function operate(a,b, operator){
-    test(`CALCULATING ${operator.name}`)
+    //test(`CALCULATING ${operator.name}`)
     if(operator === '') {
         return 'Operator empty'
     }else if(operator.name === 'divide' && b == '0'){
@@ -135,7 +135,7 @@ calculator.addEventListener('click', (event) => {
             allClear();
             break;
         default:
-            console.log(`ERROR: unidentified button ${event.target}`)
+            //console.log(`ERROR: unidentified button ${event.target}`)
             break;
     }
 })
@@ -151,7 +151,7 @@ function allClear(){
 }
 
 function numberPress(buttonText){
-    test(`NUMBER PRESSED: ${buttonText}`);
+    //test(`NUMBER PRESSED: ${buttonText}`);
     let buttonNumber = buttonText
     if(getCurrentInput() === '0' || lastPress === 'operator' || lastPress === 'equals'){
         updateDisplay(buttonNumber, 'replace');
@@ -161,11 +161,11 @@ function numberPress(buttonText){
         appendInput(buttonNumber)
     }
     lastPress = 'number'
-    test(`After number pressed:`);
+    //test(`After number pressed:`);
 }
 
 function operatorPress(operatorID){
-    test(`OPERATOR PRESSED: ${operatorID}`);
+    //test(`OPERATOR PRESSED: ${operatorID}`);
     if(!isFirstInput && lastPress === 'number'){
         let result = operate(input1,input2,operator);
         if(!validateResult(result)) return
@@ -175,11 +175,11 @@ function operatorPress(operatorID){
     isFirstInput = false;
     operator = window[operatorID]
     lastPress = 'operator'
-    test(`AFTER OPERATOR PRESSED:`);
+    //test(`AFTER OPERATOR PRESSED:`);
 }
 
 function equalPress(){
-    test(`EQUALS PRESSED`);
+    //test(`EQUALS PRESSED`);
     if(lastPress === 'operator'){
         input2 = input1;
     }
@@ -190,12 +190,11 @@ function equalPress(){
         isFirstInput = true;
         lastPress = 'equals'
     }
-    test(`AFTER EQUALS PRESSED:`);
+    //test(`AFTER EQUALS PRESSED:`);
 }
 
 function decimalPress(){
     if(!getCurrentInput().includes('.')){
-        console.log('works')
         appendInput('.')
         updateDisplay('.', 'append')
     }
@@ -212,5 +211,5 @@ function percentagePress(){
 function signPress(){
     getCurrentInput().startsWith('-') ?  replaceInput(getCurrentInput().slice(1)) : replaceInput(`-${getCurrentInput()}`)
     updateDisplay(getCurrentInput(),'replace')
-    test('Sign Pressed')
+    //test('Sign Pressed')
 }
