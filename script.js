@@ -1,5 +1,5 @@
 function add(a, b){
-    return Number(a) + Number(b)
+    return String(Number(a) + Number(b))
 }
 
 function subtract(a, b){
@@ -15,9 +15,13 @@ function divide(a, b){
 }
 
 function operate(a,b, operator){
-    test('calculating: ')
+    test(`CALCULATING ${operator.name}`)
     if(operator === '') {
         return 'Operator empty'
+    }else if(operator.name === 'divide' && b == '0'){
+        alert('don\'t divide by 0 dingus, clear your values')
+        console.log('we ran thru')
+        return operator(a,b)
     }else{
         return operator(a,b)
     }
@@ -34,32 +38,27 @@ const display = document.querySelector('.display')
 //Helper functions
 function test(message = ''){
     console.log(`-------------${message}`)
-    console.log(`input1 = ${input1} | input2 = ${input2} | operator = ${operator.name ? operator.name : ''} | lastPress = ${lastPress} isFirstInput = ${isFirstInput}`)
-}
-
-function toggleInput(){
-    isFirstInput = !isFirstInput
-    console.log(`isFirstInput changed to = ${isFirstInput}`)
+    console.log(`input1 = ${input1} | input2 = ${input2} | operator = ${operator.name ? operator.name : ''} | lastPress = ${lastPress} isFirstInput = ${isFirstInput} types: 1: ${typeof(input1)} 2: ${typeof(input2)}`)
 }
 
 function appendInput(value){
     if(isFirstInput){
-        input1 += value
+        input1 += String(value)
     }else{
-        input2 += value
+        input2 += String(value)
     }
 }
 
 function replaceInput(value){
     if(isFirstInput){
-        input1 = value
+        input1 = String(value)
     }else{
-        input2 = value
+        input2 = String(value)
     }
 }
 
-function currentInputZero(){
-    return isFirstInput ? input1 === '0' : input2 === '0'
+function getCurrentInput(){
+    return isFirstInput? input1 : input2
 }
 
 function updateDisplay(value, method = 'append'){
@@ -76,38 +75,43 @@ const calculator = document.querySelector('.calc-container')
 calculator.addEventListener('click', (event) => {
     if(event.target.classList[0] === 'display') return;
     
-    if(event.target.classList[0] === 'number'){
-        return numberPress(event.target.textContent)
-    }
     switch(event.target.id){
-        case 'clear':
-            allClear();
+        case 'zero':
+        case 'one':
+        case 'two':
+        case 'three':
+        case 'four':
+        case 'five':
+        case 'six':
+        case 'seven':
+        case 'eight':
+        case 'nine':
+            numberPress(event.target.textContent)
             break;
         case 'add':
-            operatorPress(event.target.id)
-        break;
         case 'subtract':
-            operatorPress(event.target.id)
-        break;
         case 'divide':
-            operatorPress(event.target.id)
-        break;
         case 'multiply':
             operatorPress(event.target.id)
-        break;
+            break;
         case 'equals':
             equalPress()
-        break;
+            break;
+        case 'decimal':
+            decimalPress();
+            break;
+        case 'all-clear':
+            allClear();
+            break;
         default:
-            console.log('error: unidentified button')
+            console.log(`ERROR: unidentified button ${event.target}`)
             break;
     }
 })
 
 //Event Handlers
-
 function allClear(){
-    updateDisplay(0, 'replace');
+    updateDisplay('0', 'replace');
     input1 = '0';
     input2 = '0';
     operator = '';
@@ -117,7 +121,7 @@ function allClear(){
 function numberPress(buttonText){
     test(`NUMBER PRESSED: ${buttonText}`);
     let buttonNumber = buttonText
-    if(currentInputZero() || lastPress === 'operator'){
+    if(getCurrentInput() === '0' || lastPress === 'operator' || lastPress === 'equals'){
         updateDisplay(buttonNumber, 'replace');
         replaceInput(buttonNumber);
     }else{
@@ -152,4 +156,12 @@ function equalPress(){
     isFirstInput = true;
     lastPress = 'equals'
     test(`AFTER EQUALS PRESSED:`);
+}
+
+function decimalPress(){
+    if(!getCurrentInput().includes('.')){
+        console.log('works')
+        appendInput('.')
+        updateDisplay('.', 'append')
+    }
 }
