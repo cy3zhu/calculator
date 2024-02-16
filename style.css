@@ -11,6 +11,7 @@ body{
     box-shadow: inset 0px 0px 5px 0px white;
     height: 350px;
     aspect-ratio: 2/3;
+    margin-top: 50px;
     padding: 8px;
     display: flex;
     flex-direction: column;
@@ -30,7 +31,6 @@ body{
 
 .button-row{
     flex: 1;
-    margin: 1px;
     display: flex;
     justify-content: space-evenly;
 
