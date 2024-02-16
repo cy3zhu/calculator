@@ -20,10 +20,9 @@ function operate(a,b, operator){
         return 'Operator empty'
     }else if(operator.name === 'divide' && b == '0'){
         alert('don\'t divide by 0 dingus, clear your values')
-        console.log('we ran thru')
         return operator(a,b)
     }else{
-        return operator(a,b)
+        return roundResult(operator(a,b))
     }
 }
 
@@ -61,6 +60,10 @@ function getCurrentInput(){
     return isFirstInput? input1 : input2
 }
 
+function checkLimitReached(string){
+    return string.includes('.') ? string.length > 9 : string.length > 8
+}
+
 function updateDisplay(value, method = 'append'){
     if(method === 'replace'){
         return display.textContent = String(value)
@@ -68,6 +71,26 @@ function updateDisplay(value, method = 'append'){
         return display.textContent += value;
     }
     console.log('updateDisplay failed')
+}
+
+function roundResult(number){
+    //if more than 9 digits or more than 8 decimals
+    if(Math.abs(number) > 999999999 || !((Math.abs(number)*1e+8 % 1) === 0)){
+        return number.toExponential(4)
+    }else{
+        return number
+    }
+}
+
+function validateResult(number){
+    if(Math.abs(number) > 9.999e+99 || Math.abs(number) < 1.000e-99){
+        alert('Error - too many digits')
+        allClear()
+        return false
+    }else{
+        return true
+    }
+    
 }
 
 //Event Listeners
@@ -116,6 +139,7 @@ function allClear(){
     input2 = '0';
     operator = '';
     isFirstInput = true;
+    lastPress = ''
 }
 
 function numberPress(buttonText){
@@ -124,7 +148,7 @@ function numberPress(buttonText){
     if(getCurrentInput() === '0' || lastPress === 'operator' || lastPress === 'equals'){
         updateDisplay(buttonNumber, 'replace');
         replaceInput(buttonNumber);
-    }else{
+    }else if(!checkLimitReached(getCurrentInput())){
         updateDisplay(buttonNumber, 'append')
         appendInput(buttonNumber)
     }
@@ -136,6 +160,7 @@ function operatorPress(operatorID){
     test(`OPERATOR PRESSED: ${operatorID}`);
     if(!isFirstInput && lastPress === 'number'){
         let result = operate(input1,input2,operator);
+        if(!validateResult(result)) return
         input1 = result;
         updateDisplay(result, 'replace');
     }
@@ -151,10 +176,12 @@ function equalPress(){
         input2 = input1;
     }
     let result = operate(input1,input2,operator);
-    input1 = result
-    updateDisplay(result, 'replace');
-    isFirstInput = true;
-    lastPress = 'equals'
+    if(validateResult(result)){
+        input1 = result
+        updateDisplay(result, 'replace');
+        isFirstInput = true;
+        lastPress = 'equals'
+    }
     test(`AFTER EQUALS PRESSED:`);
 }
 

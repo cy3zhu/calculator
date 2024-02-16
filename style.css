@@ -20,7 +20,7 @@ body{
 .display{
     flex: 2;
     color: white;
-    font-size: 44px;
+    font-size: 40px;
     padding-right: 16px;
     display: flex;
     justify-content: flex-end;
