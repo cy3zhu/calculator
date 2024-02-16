@@ -126,6 +126,9 @@ calculator.addEventListener('click', (event) => {
         case 'percent':
             percentagePress();
             break;
+        case 'sign':
+            signPress()
+            break;
         case 'all-clear':
             allClear();
             break;
@@ -202,4 +205,10 @@ function percentagePress(){
         replaceInput(percentage)
         updateDisplay(percentage, 'replace')
     }
+}
+
+function signPress(){
+    getCurrentInput().startsWith('-') ?  replaceInput(getCurrentInput().slice(1)) : replaceInput(`-${getCurrentInput()}`)
+    updateDisplay(getCurrentInput(),'replace')
+    test('Sign Pressed')
 }
