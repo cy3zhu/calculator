@@ -3,15 +3,15 @@ function add(a, b){
 }
 
 function subtract(a, b){
-    return a - b
+    return String(Number(a) - Number(b))
 }
 
 function multiply(a, b){
-    return a * b
+    return String(Number(a) * Number(b))
 }
 
 function divide(a, b){
-    return a/b
+    return String(Number(a)/Number(b))
 }
 
 function operate(a,b, operator){
@@ -74,11 +74,13 @@ function updateDisplay(value, method = 'append'){
 }
 
 function roundResult(number){
+    number = Number(number)
+
     //if more than 9 digits or more than 8 decimals
     if(Math.abs(number) > 999999999 || !((Math.abs(number)*1e+8 % 1) === 0)){
-        return number.toExponential(4)
+        return String(number.toExponential(4))
     }else{
-        return number
+        return String(number)
     }
 }
 
